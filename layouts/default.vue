@@ -1,5 +1,5 @@
 <template>
-  <section class="flex flex-col">
-    <h1>This is the default layout</h1>
+  <section class="w-full flex flex-col">
+    <slot />
   </section>
 </template>
