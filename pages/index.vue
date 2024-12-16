@@ -50,7 +50,7 @@ const addRestaurant = async () => {
 };
 </script>
 <template>
-  <h1 class="text-3xl font-bold">¿A donde iremos hoy?</h1>
+  <h1 class="text-9xl font-anton">Menú</h1>
   <ul>
     <li
       v-for="restaurant in documents"

@@ -13,8 +13,8 @@ module.exports = {
       ivory: "#fffff0",
     },
     fontFamily: {
-      sans: ["Graphik", "sans-serif"],
-      serif: ["Merriweather", "serif"],
+      anton: ["Anton-Regular", "sans-serif"],
+      general: ["GeneralSans-Regular", "sans-serif"],
     },
   },
 };
