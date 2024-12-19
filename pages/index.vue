@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ID } from "appwrite";
+import * as LucideIcons from "lucide-vue-next";
 const appwrite = useAppwriteStore();
 
 onMounted(async () => {
@@ -15,6 +16,8 @@ const restaurant = ref({
   name: "",
   direction: "",
 });
+const icons = new Map<string, any>();
+
 const getRestaurants = async () => {
   try {
     connection.value.db = useDatabaseId("main");
@@ -24,7 +27,6 @@ const getRestaurants = async () => {
       connection.value.restaurants,
       [],
     );
-    console.log(response);
     if (response.documents.length > 0) {
       documents.value = response.documents;
     } else {
@@ -35,6 +37,7 @@ const getRestaurants = async () => {
     documents.value = "no hay registros";
   }
 };
+
 const addRestaurant = async () => {
   await appwrite.db.createDocument(
     connection.value.db,
@@ -48,19 +51,45 @@ const addRestaurant = async () => {
   );
   await getRestaurants();
 };
+
+const generateBg = (color: string) => {
+  const bg = `#${color}`;
+  return bg;
+};
+
+const getIconComponent = (iconName: string) => {
+  return LucideIcons[iconName] || null;
+};
 </script>
 <template>
   <h1 class="text-9xl font-anton">Menú</h1>
-  <ul>
-    <li
-      v-for="restaurant in documents"
-      :key="restaurant.id"
-      class="text-xl textr-slate-800 hover:text-slate-600 hover:underline"
-    >
-      {{ restaurant.name }}
-      <span class="text-slate-400">{{ restaurant.score }}</span>
-    </li>
-  </ul>
+  <section class="w-full flex justify-center items-start flex-col">
+    <h1 class="mt-20 text-4xl font-bold">Recientemente agregados</h1>
+    <ul class="mt-5 w-full flex flex-wrap justify-start items-center gap-10">
+      <li
+        v-for="restaurant in documents"
+        :key="restaurant.id"
+        class="w-fit h-fit flex flex-wrap justify-center items-center bg-whiteSmoke border-[0.3rem] rounded-xl overflow-hidden shadow-[18px_15px_0px_0px_#1a202c]"
+      >
+        <div
+          class="py-8 px-8 flex justify-center items-center flex-grow border-r-[0.3rem]"
+          :style="{ 'background-color': '#' + restaurant.color }"
+        >
+          <component
+            :is="getIconComponent(restaurant.icon)"
+            class="text-white w-14 h-14"
+          />
+        </div>
+        <div
+          class="px-10 flex justify-center items-center flex-grow-[3] text-2xl"
+        >
+          <p class="text-gunMetal font-bold">
+            {{ restaurant.name }}
+          </p>
+        </div>
+      </li>
+    </ul>
+  </section>
   <form @submit.prevent="addRestaurant">
     <v-btn variant="outlined" class="my-4" type="submit">
       Añadir restaurante

@@ -15,6 +15,7 @@ module.exports = {
     fontFamily: {
       anton: ["Anton-Regular", "sans-serif"],
       general: ["GeneralSans-Regular", "sans-serif"],
+      bold: ["GeneralSans-Bold", "sans-serif"],
     },
   },
 };
