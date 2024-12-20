@@ -7,11 +7,7 @@ onMounted(async () => {
   await getRestaurants();
 });
 
-const documents = ref();
-const connection = ref({
-  db: "",
-  restaurants: "",
-});
+const restaurants = ref();
 const restaurant = ref({
   name: "",
   direction: "",
@@ -19,37 +15,31 @@ const restaurant = ref({
 
 const getRestaurants = async () => {
   try {
-    connection.value.db = useDatabaseId("main");
-    connection.value.restaurants = useCollectionId("restaurants");
-    const response = await appwrite.db.listDocuments(
-      connection.value.db,
-      connection.value.restaurants,
-      [],
-    );
-    if (response.documents.length > 0) {
-      documents.value = response.documents;
-    } else {
-      throw new Error("No hay registros");
+    const { listDocuments, documents, error } = useAppwriteDocuments();
+    await listDocuments("main", "restaurants");
+    if (error.value.bug) {
+      throw new Error(error.value.message);
     }
+    restaurants.value = documents.value;
   } catch (e) {
     console.log(e);
-    documents.value = "no hay registros";
+    restaurants.value = "no hay registros";
   }
 };
 
-const addRestaurant = async () => {
-  await appwrite.db.createDocument(
-    connection.value.db,
-    connection.value.restaurants,
-    ID.unique(),
-    {
-      name: restaurant.value.name,
-      direction: restaurant.value.direction,
-      score: 1,
-    },
-  );
-  await getRestaurants();
-};
+//const addRestaurant = async () => {
+//  await appwrite.db.createDocument(
+//    connection.value.db,
+//    connection.value.restaurants,
+//    ID.unique(),
+//    {
+//      name: restaurant.value.name,
+//      direction: restaurant.value.direction,
+//      score: 1,
+//    },
+//  );
+//  await getRestaurants();
+//};
 
 const getIcon = (iconName: string) => {
   return LucideIcons[iconName] || null;
@@ -63,7 +53,7 @@ const getUrl = (id: string) => {
   <section class="w-full flex justify-center items-start flex-col">
     <h1 class="mt-20 text-4xl font-bold">Recientemente agregados</h1>
     <ul class="mt-5 w-full flex flex-wrap justify-start items-center gap-10">
-      <li v-for="restaurant in documents" :key="restaurant.$id">
+      <li v-for="restaurant in restaurants" :key="restaurant.$id">
         <a
           class="w-fit h-fit flex flex-wrap justify-center items-center bg-whiteSmoke border-[0.3rem] rounded-xl overflow-hidden shadow-[15px_15px_0px_0px_#1a202c] hover:shadow-[25px_15px_0px_0px_#1a202c] ease-out transition-all duration-300"
           :href="getUrl(restaurant.$id)"

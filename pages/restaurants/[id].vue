@@ -19,8 +19,8 @@ const restaurant = ref({
 
 const getRestaurants = async () => {
   try {
-    connection.value.db = useDatabaseId("main");
-    connection.value.restaurants = useCollectionId("restaurants");
+    connection.value.db = useAppwriteDatabase("main");
+    connection.value.restaurants = useAppwriteCollection("restaurants");
     connection.value.document = String(route.params.id);
     const response = await appwrite.db.getDocument(
       connection.value.db,
