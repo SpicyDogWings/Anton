@@ -51,13 +51,11 @@ const addRestaurant = async () => {
   await getRestaurants();
 };
 
-const generateBg = (color: string) => {
-  const bg = `#${color}`;
-  return bg;
-};
-
-const getIconComponent = (iconName: string) => {
+const getIcon = (iconName: string) => {
   return LucideIcons[iconName] || null;
+};
+const getUrl = (id: string) => {
+  return `/restaurants/${id}`;
 };
 </script>
 <template>
@@ -65,17 +63,17 @@ const getIconComponent = (iconName: string) => {
   <section class="w-full flex justify-center items-start flex-col">
     <h1 class="mt-20 text-4xl font-bold">Recientemente agregados</h1>
     <ul class="mt-5 w-full flex flex-wrap justify-start items-center gap-10">
-      <li v-for="restaurant in documents" :key="restaurant.id">
+      <li v-for="restaurant in documents" :key="restaurant.$id">
         <a
-          class="w-fit h-fit flex flex-wrap justify-center items-center bg-whiteSmoke border-[0.3rem] rounded-xl overflow-hidden shadow-[18px_15px_0px_0px_#1a202c]"
-          href="#"
+          class="w-fit h-fit flex flex-wrap justify-center items-center bg-whiteSmoke border-[0.3rem] rounded-xl overflow-hidden shadow-[15px_15px_0px_0px_#1a202c] hover:shadow-[25px_15px_0px_0px_#1a202c] ease-out transition-all duration-300"
+          :href="getUrl(restaurant.$id)"
         >
           <div
             class="py-8 px-8 flex justify-center items-center flex-grow border-r-[0.3rem]"
             :style="{ 'background-color': '#' + restaurant.color }"
           >
             <component
-              :is="getIconComponent(restaurant.icon)"
+              :is="getIcon(restaurant.icon)"
               class="text-white w-14 h-14"
             />
           </div>
