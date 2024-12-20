@@ -16,7 +16,6 @@ const restaurant = ref({
   name: "",
   direction: "",
 });
-const icons = new Map<string, any>();
 
 const getRestaurants = async () => {
   try {
@@ -66,27 +65,28 @@ const getIconComponent = (iconName: string) => {
   <section class="w-full flex justify-center items-start flex-col">
     <h1 class="mt-20 text-4xl font-bold">Recientemente agregados</h1>
     <ul class="mt-5 w-full flex flex-wrap justify-start items-center gap-10">
-      <li
-        v-for="restaurant in documents"
-        :key="restaurant.id"
-        class="w-fit h-fit flex flex-wrap justify-center items-center bg-whiteSmoke border-[0.3rem] rounded-xl overflow-hidden shadow-[18px_15px_0px_0px_#1a202c]"
-      >
-        <div
-          class="py-8 px-8 flex justify-center items-center flex-grow border-r-[0.3rem]"
-          :style="{ 'background-color': '#' + restaurant.color }"
+      <li v-for="restaurant in documents" :key="restaurant.id">
+        <a
+          class="w-fit h-fit flex flex-wrap justify-center items-center bg-whiteSmoke border-[0.3rem] rounded-xl overflow-hidden shadow-[18px_15px_0px_0px_#1a202c]"
+          href="#"
         >
-          <component
-            :is="getIconComponent(restaurant.icon)"
-            class="text-white w-14 h-14"
-          />
-        </div>
-        <div
-          class="px-10 flex justify-center items-center flex-grow-[3] text-2xl"
-        >
-          <p class="text-gunMetal font-bold">
-            {{ restaurant.name }}
-          </p>
-        </div>
+          <div
+            class="py-8 px-8 flex justify-center items-center flex-grow border-r-[0.3rem]"
+            :style="{ 'background-color': '#' + restaurant.color }"
+          >
+            <component
+              :is="getIconComponent(restaurant.icon)"
+              class="text-white w-14 h-14"
+            />
+          </div>
+          <div
+            class="px-10 flex justify-center items-center flex-grow-[3] text-2xl"
+          >
+            <p class="text-gunMetal font-bold">
+              {{ restaurant.name }}
+            </p>
+          </div>
+        </a>
       </li>
     </ul>
   </section>
