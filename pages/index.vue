@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ID } from "appwrite";
+import { ID, Query } from "appwrite";
 import * as LucideIcons from "lucide-vue-next";
-const appwrite = useAppwriteStore();
 
 onMounted(async () => {
   await getRestaurants();
@@ -12,14 +11,18 @@ const restaurant = ref({
   name: "",
   direction: "",
 });
-
 const getRestaurants = async () => {
   try {
     const { listDocuments, documents, error } = useAppwriteDocuments();
-    await listDocuments("main", "restaurants");
+    await listDocuments("main", "restaurants", [
+      //Query.select(["name", "$id", "color", "icon"]),
+      Query.orderDesc("$createdAt"),
+      Query.limit(5),
+    ]);
     if (error.value.bug) {
       throw new Error(error.value.message);
     }
+    console.log(documents.value);
     restaurants.value = documents.value;
   } catch (e) {
     console.log(e);
@@ -55,7 +58,7 @@ const getUrl = (id: string) => {
     <ul class="mt-5 w-full flex flex-wrap justify-start items-center gap-10">
       <li v-for="restaurant in restaurants" :key="restaurant.$id">
         <a
-          class="w-fit h-fit flex flex-wrap justify-center items-center bg-whiteSmoke border-[0.3rem] rounded-xl overflow-hidden shadow-[15px_15px_0px_0px_#1a202c] hover:shadow-[25px_15px_0px_0px_#1a202c] ease-out transition-all duration-300"
+          class="w-fit h-fit flex flex-wrap justify-center items-center bg-whiteSmoke border-[0.3rem] rounded-xl overflow-hidden shadow-[15px_15px_0px_0px_#1a202c] hover:shadow-[20px_20px_0px_0px_#1a202c] hover:-translate-x-1 transform-y-1 ease-out transition-all duration-300"
           :href="getUrl(restaurant.$id)"
         >
           <div
@@ -78,7 +81,7 @@ const getUrl = (id: string) => {
       </li>
     </ul>
   </section>
-  <form @submit.prevent="addRestaurant">
+  <!-- <form @submit.prevent="addRestaurant">
     <v-btn variant="outlined" class="my-4" type="submit">
       Añadir restaurante
     </v-btn>
@@ -92,5 +95,5 @@ const getUrl = (id: string) => {
       variant="outlined"
       v-model="restaurant.direction"
     ></v-text-field>
-  </form>
+  </form> -->
 </template>

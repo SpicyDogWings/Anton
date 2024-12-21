@@ -9,14 +9,14 @@ export function useAppwriteDocuments() {
   const listDocuments = async (
     database: string,
     collection: string,
-    filters: string[] = [],
+    query: string[] = [],
   ) => {
     try {
       const connection = useAppwriteConnection(database, collection);
       const response = await appwrite.db.listDocuments(
         connection.value.db,
         connection.value.collection,
-        filters,
+        query,
       );
       if (response.documents.length > 0) {
         documents.value = response.documents;
