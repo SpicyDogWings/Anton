@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import { ID, Query } from "appwrite";
-import * as LucideIcons from "lucide-vue-next";
+//import * as LucideIcons from "lucide-vue-next";
 
 onMounted(async () => {
   await getRestaurants();
 });
 
 const restaurants = ref();
-const restaurant = ref({
-  name: "",
-  direction: "",
-});
+//const restaurant = ref({
+//  name: "",
+//  direction: "",
+//});
 const getRestaurants = async () => {
   try {
     const { listDocuments, documents, error } = useAppwriteDocuments();
     await listDocuments("main", "restaurants", [
-      //Query.select(["name", "$id", "color", "icon"]),
       Query.orderDesc("$createdAt"),
       Query.limit(5),
     ]);
@@ -44,21 +43,32 @@ const getRestaurants = async () => {
 //  await getRestaurants();
 //};
 
-const getIcon = (iconName: string) => {
-  return LucideIcons[iconName] || null;
-};
+//const getIcon = (iconName: string) => {
+//  return LucideIcons[iconName] || null;
+//};
 const getUrl = (id: string) => {
   return `/restaurants/${id}`;
 };
 </script>
 <template>
-  <h1 class="text-9xl font-anton">Menú</h1>
+  <h1 class="text-9xl font-general">A la carta</h1>
   <section class="w-full flex justify-center items-start flex-col">
-    <h1 class="mt-20 text-4xl font-bold">Recientemente agregados</h1>
+    <h1 class="mt-20 text-4xl">Agregados recientemente</h1>
+    <h2 class="mt-20 text-4xl">Restaurantes</h2>
     <ul class="mt-5 w-full flex flex-wrap justify-start items-center gap-10">
       <li v-for="restaurant in restaurants" :key="restaurant.$id">
-        <a
-          class="w-fit h-fit flex flex-wrap justify-center items-center bg-whiteSmoke border-[0.3rem] rounded-xl overflow-hidden shadow-[15px_15px_0px_0px_#1a202c] hover:shadow-[20px_20px_0px_0px_#1a202c] hover:-translate-x-1 transform-y-1 ease-out transition-all duration-300"
+        <v-card>
+          <v-card-title>{{ restaurant.name }}</v-card-title>
+          <v-card-subtitle>{{ restaurant.direction }}</v-card-subtitle>
+          <template v-slot:actions>
+            <v-btn
+              text="Editar"
+              @click="navigateTo('restaurants/' + restaurant.$id)"
+            ></v-btn>
+          </template>
+        </v-card>
+        <!-- <a
+          class="w-fit h-fit flex flex-wrap justify-center items-center"
           :href="getUrl(restaurant.$id)"
         >
           <div
@@ -77,7 +87,7 @@ const getUrl = (id: string) => {
               {{ restaurant.name }}
             </p>
           </div>
-        </a>
+        </a> -->
       </li>
     </ul>
   </section>
