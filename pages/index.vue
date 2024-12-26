@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ID, Query } from "appwrite";
+import { Query } from "appwrite";
 //import * as LucideIcons from "lucide-vue-next";
 
 onMounted(async () => {
@@ -53,6 +53,13 @@ const getUrl = (id: string) => {
 <template>
   <h1 class="text-9xl font-general">A la carta</h1>
   <section class="w-full flex justify-center items-start flex-col">
+    <v-btn
+      @click="navigateTo('/restaurants/new')"
+      text="Agregar restaurante"
+      variant="outlined"
+      class="mt-20 text-4xl"
+    >
+    </v-btn>
     <h1 class="mt-20 text-4xl">Agregados recientemente</h1>
     <h2 class="mt-20 text-4xl">Restaurantes</h2>
     <ul class="mt-5 w-full flex flex-wrap justify-start items-center gap-10">
