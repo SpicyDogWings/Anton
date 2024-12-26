@@ -1,3 +1,5 @@
+import { ID } from "appwrite";
+
 export function useAppwriteDocuments() {
   const appwrite = useAppwriteStore();
   const documents = ref();
@@ -31,9 +33,30 @@ export function useAppwriteDocuments() {
     }
   };
 
+  const createDocument = async (
+    database: string,
+    collection: string,
+    item: object,
+  ) => {
+    try {
+      const connection = useAppwriteConnection(database, collection);
+      const response = await appwrite.db.createDocument(
+        connection.value.db,
+        connection.value.collection,
+        ID.unique(),
+        item,
+      );
+    } catch (e) {
+      console.error(e);
+      error.value.message = "An error occurred while adding document.";
+      documents.value = [];
+    }
+  };
+
   return {
     documents,
     error,
     listDocuments,
+    createDocument,
   };
 }
