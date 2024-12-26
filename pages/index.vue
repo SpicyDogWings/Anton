@@ -43,7 +43,7 @@ const getRestaurants = async () => {
           <v-card-subtitle>{{ restaurant.direction }}</v-card-subtitle>
           <template v-slot:actions>
             <v-btn
-              text="Editar"
+              text="Ver"
               @click="navigateTo('restaurants/' + restaurant.$id)"
             ></v-btn>
           </template>
