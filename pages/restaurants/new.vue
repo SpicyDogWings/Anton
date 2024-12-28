@@ -27,7 +27,7 @@ const addRestaurant = async () => {
     ><LucideArrowLeft class="w-6 h-6 stroke-[0.2rem]" /> Volver</a
   >
   <section class="w-full flex justify-center items-start flex-col">
-    <h1 class="mb-10 text-9xl font-general">Nuevo restaurante</h1>
+    <h1 class="my-10 text-9xl font-general">Nuevo restaurante</h1>
     <v-text-field
       label="Nombre"
       variant="outlined"

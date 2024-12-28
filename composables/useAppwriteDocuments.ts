@@ -53,10 +53,35 @@ export function useAppwriteDocuments() {
     }
   };
 
+  const getDocument = async (
+    database: string,
+    collection: string,
+    document: string,
+  ) => {
+    try {
+      const connection = useAppwriteConnection(database, collection);
+      const response = await appwrite.db.getDocument(
+        connection.value.db,
+        connection.value.collection,
+        document,
+        [],
+      );
+      if (response) {
+        documents.value = response;
+      } else {
+        throw new Error("No hay registros");
+      }
+    } catch (e) {
+      console.log(e);
+      documents.value = "no hay registros";
+    }
+  };
+
   return {
     documents,
     error,
     listDocuments,
+    getDocument,
     createDocument,
   };
 }
