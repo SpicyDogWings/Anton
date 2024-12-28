@@ -26,6 +26,7 @@ const getRestaurants = async () => {
 </script>
 <template>
   <h1 class="text-9xl font-general">A la carta</h1>
+  <h2 class="text-7xl font-general"></h2>
   <section class="w-full flex justify-center items-start flex-col">
     <v-btn
       @click="navigateTo('/restaurants/new')"
@@ -44,7 +45,7 @@ const getRestaurants = async () => {
           <template v-slot:actions>
             <v-btn
               text="Ver"
-              @click="navigateTo('restaurants/' + restaurant.$id)"
+              @click="navigateTo('/restaurants/' + restaurant.$id)"
             ></v-btn>
           </template>
         </v-card>
