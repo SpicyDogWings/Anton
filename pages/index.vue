@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { Query } from "appwrite";
 
+useHead({
+  title: "Entrada",
+});
+
 onMounted(async () => {
   await getRestaurants();
 });
@@ -25,7 +29,15 @@ const getRestaurants = async () => {
 };
 </script>
 <template>
-  <h1 class="text-9xl font-general">A la carta</h1>
+  <section class="w-full flex justify-start items-end gap-10">
+    <h1 class="text-9xl font-anton text-carbonBlack">A la carta</h1>
+    <div class="flex flex-col jusify-end items-start">
+      <span
+        class="py-2 px-6 text-xl font-general text-carbonBlack bg-whiteSmoke border-carbonBlack border-2 rounded-lg shadow-[10px_10px_0px_0px_#1a202c] -translate-y-4 hover:-translate-y-5 hover:-translate-x-1 transition-all duration-200 hover:shadow-[20px_20px_0px_0px_#1a202c]"
+        >Todo tu menú en un solo lugar</span
+      >
+    </div>
+  </section>
   <h2 class="text-7xl font-general"></h2>
   <section class="w-full flex justify-center items-start flex-col">
     <v-btn
