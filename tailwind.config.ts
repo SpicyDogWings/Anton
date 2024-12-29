@@ -18,4 +18,5 @@ module.exports = {
       bold: ["GeneralSans-Bold", "sans-serif"],
     },
   },
+  plugins: [],
 };
