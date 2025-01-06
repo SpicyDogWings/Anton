@@ -34,6 +34,7 @@ const login = async () => {
         variant="outlined"
         v-model="user.password"
         class="w-6/12"
+        type="password"
       ></v-text-field>
       <v-btn variant="outlined" class="my-4" type="submit" @click="login()">
         Acceder
