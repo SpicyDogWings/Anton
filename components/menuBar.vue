@@ -1,9 +1,13 @@
 <script setup lang="ts">
 const route = useRoute();
-console.log(route.path);
 const items = ref([
   {
     id: 1,
+    name: "Restaurantes",
+    link: "/restaurants",
+  },
+  {
+    id: 2,
     name: "Agregar restaurante",
     link: "/restaurants/new",
   },
