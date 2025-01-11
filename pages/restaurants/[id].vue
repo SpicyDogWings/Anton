@@ -15,36 +15,32 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <a class="mt-10 flex justify-start items-center gap-4" href="/"
-    ><LucideArrowLeft class="w-6 h-6 stroke-[0.2rem]" /> Volver</a
-  >
+  <ButtonGoBack href="/" />
   <section class="w-full flex justify-center items-start flex-col">
     <h1 class="mt-20 text-9xl font-general">{{ restaurant?.name }}</h1>
     <v-btn
       @click="navigateTo('/restaurants/' + restaurant.$id + '/plates/new')"
       text="Agregar platillo"
       variant="outlined"
-      class="mt-20 text-4xl"
+      class="my-20 text-4xl"
     >
     </v-btn>
-    <h2 class="mt-20 text-4xl font-general">Platillos</h2>
-    <ul class="mt-5 w-full flex flex-wrap justify-start items-center gap-10">
-      <li v-for="plate in plates" :key="plate.$id">
-        <v-card>
-          <v-card-title>{{ plate.name }}</v-card-title>
-          <v-card-subtitle>{{ plate.description }}</v-card-subtitle>
-          <template v-slot:actions>
-            <v-btn
-              text="Ver"
-              @click="
-                navigateTo(
-                  '/restaurants/' + restaurant.$id + '/plates/' + plate.$id,
-                )
-              "
-            ></v-btn>
-          </template>
-        </v-card>
-      </li>
-    </ul>
+    <div class="w-full my-5">
+      <h2 class="mb-2 text-4xl">Platillos</h2>
+      <v-divider :thickness="1" class="border-opacity-100"></v-divider>
+      <ul class="my-5 w-full columns-2 gap-10">
+        <li class="w-full" v-for="plate in plates" :key="plate.$id">
+          <a
+            class="w-full flex justify-between items-center gap-5 hover:gap-10 hover:cursor-pointer transition-all diration-200 ease-out"
+          >
+            <span
+              class="hover:pl-2 basis-fit text-nowrap font-bold text-xl transition-all duration-200 ease-out"
+              >{{ plate.name }}</span
+            >
+            <hr class="basis-full border-2 border-dotted" />
+          </a>
+        </li>
+      </ul>
+    </div>
   </section>
 </template>

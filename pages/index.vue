@@ -75,8 +75,8 @@ const getPlates = async () => {
               :key="restaurant.$id"
             >
               <a
+                :href="'/restaurants/' + restaurant.$id"
                 class="w-full flex justify-between items-center gap-5 hover:gap-10 hover:cursor-pointer transition-all diration-200 ease-out"
-                @click="navigateTo('/restaurants/' + restaurant.$id)"
               >
                 <span
                   class="hover:pl-2 basis-fit text-nowrap font-bold text-xl transition-all duration-200 ease-out"

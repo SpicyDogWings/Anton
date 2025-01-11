@@ -14,6 +14,9 @@ onMounted(async () => {
     ><LucideArrowLeft class="w-6 h-6 stroke-[0.2rem]" /> Volver</a
   >
   <section class="w-full flex justify-center items-start flex-col">
-    <h1 class="mt-20 text-9xl font-general">{{ plates?.name }}</h1>
+    <h1 class="mt-20 text-9xl font-bold">{{ plates?.name }}</h1>
+    <p class="mt-5 basis-80 text-4xl">
+      {{ plates?.description }}
+    </p>
   </section>
 </template>

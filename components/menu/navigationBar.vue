@@ -6,11 +6,6 @@ const items = ref([
     name: "Restaurantes",
     link: "/restaurants",
   },
-  {
-    id: 2,
-    name: "Agregar restaurante",
-    link: "/restaurants/new",
-  },
 ]);
 </script>
 <template>
