@@ -11,6 +11,7 @@ module.exports = {
       carbonBlack: "#0c0a00",
       whiteSmoke: "#F5F5F5",
       ivory: "#fffff0",
+      lividBrown: "#452633",
     },
     fontFamily: {
       anton: ["Anton-Regular", "sans-serif"],

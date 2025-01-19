@@ -4,7 +4,7 @@ export const useAppwriteStore = defineStore("appwrite", () => {
 
   const acc = account;
   const db = database;
-  const user = ref();
+  const user = ref()
   const sessions = ref();
   const userSession = ref();
 
@@ -26,16 +26,12 @@ export const useAppwriteStore = defineStore("appwrite", () => {
     user.value = await acc.get();
     return user.value;
   }
-
   async function getUserSession() {}
 
   // return
   return {
     acc,
     db,
-    user,
-    userSession,
-    getUser,
-    getUserSession,
+    getUser
   };
 });

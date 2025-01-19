@@ -1,24 +1,32 @@
 <script setup lang="ts">
-useHead({
-  title: "Nuevo Restaurante",
-});
 const appwrite = useAppwriteStore();
+const route = useRoute();
+
 const document = ref<Restaurants>({});
 const alert = ref({
   message: "",
   show: false,
 });
 
+onMounted(async () => {
+  const { getDocument, documents } = useAppwriteDocuments();
+  await getDocument("main", "restaurants", String(route.params.id));
+  document.value = documents.value;
+  useHead({
+    title: `Editar ${document.value.name}`,
+  });
+})
+
 const rules = ref({
   required: value => !!value || "Este campo es requerido"
 })
 
-const addRestaurant = async () => {
+const putRestaurant = async () => {
   try {
-    const { createDocument } = useAppwriteDocuments();
+    const { putDocument } = useAppwriteDocuments();
     const fetchedUser = await appwrite.getUser();
     document.value.user = fetchedUser.$id; 
-    if (['name', 'description', 'user'].some(key => !document.value[key])) {
+    if (!document.value.name || !document.value.description || !document.value.user) {
       throw new Error("Se requiere completar los campos obligatorios");
     } 
     await createDocument("main", "restaurants", document.value);
@@ -44,14 +52,12 @@ const addRestaurant = async () => {
   <ButtonGoBack href="/restaurants" />
   <section class="w-full flex justify-center items-start flex-col">
     <section class="my-20 w-full flex flex-col justify-start items-start">
-      <h1 class="mb-6 text-9xl font-anton underline decoration-8">
-        Nuevo restaurante
+      <p class="text-3xl font-anton">
+        Editar
+      </p>
+      <h1 class="mb-6 text-9xl decoration-8">
+        {{ document.name }}
       </h1>
-      <div class="flex justify-start items-start gap-20">
-        <p class="basis-80 text-xl">
-          Agregar un nuevo restaurante a las reseñas
-        </p>
-      </div>
     </section>
     <section class="my-5 w-full flex flex-col">
       <h2 class="mb-5 text-3xl">Datos del restaurante</h2>
