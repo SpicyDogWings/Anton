@@ -11,7 +11,6 @@ export function useAppwriteUsers() {
   const registerUser = async (email: string, password: string) => {
     try {
       const response = await appwrite.acc.create(ID.unique(), email, password);
-      // have starus
       console.log(response);
     } catch (e) {
       console.error(e);

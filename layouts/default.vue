@@ -7,7 +7,8 @@ useHead({
 </script>
 
 <template>
-  <section class="w-full h-full flex justify-start items-center flex-col bg-ivory">
+  <VuetifyResets />
+  <section class="pb-20 w-full h-full flex justify-start items-center flex-col bg-ivory">
     <section class="mt-20 w-10/12 flex justify-start items-start flex-col">
       <MenuNavigationBar class="mb-10" />
       <slot />
@@ -21,13 +22,6 @@ useHead({
 @tailwind utilities;
 * {
   @apply font-general text-gunMetal shadow-gunMetal border-gunMetal decoration-gunMetal;
-}
-
-.v-alert {
-  @apply bg-gunMetal;
-  .v-alert__content {
-    @apply text-ivory;
-  }
 }
 </style>
 

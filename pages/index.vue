@@ -14,14 +14,11 @@ const restaurants = ref();
 const plates = ref();
 const getRestaurants = async () => {
   try {
-    const { listDocuments, documents, error } = useAppwriteDocuments();
+    const { listDocuments, documents } = useAppwriteDocuments();
     await listDocuments("main", "restaurants", [
       Query.orderDesc("$createdAt"),
       Query.limit(10),
     ]);
-    if (error.value.bug) {
-      throw new Error(error.value.message);
-    }
     restaurants.value = documents.value;
   } catch (e) {
     console.log(e);
@@ -30,14 +27,11 @@ const getRestaurants = async () => {
 };
 const getPlates = async () => {
   try {
-    const { listDocuments, documents, error } = useAppwriteDocuments();
+    const { listDocuments, documents } = useAppwriteDocuments();
     await listDocuments("main", "plates", [
       Query.orderDesc("$createdAt"),
       Query.limit(10),
     ]);
-    if (error.value.bug) {
-      throw new Error(error.value.message);
-    }
     plates.value = documents.value;
   } catch (e) {
     console.log(e);
@@ -93,8 +87,8 @@ const getPlates = async () => {
           <ul class="my-5 w-full columns-2 gap-10">
             <li class="w-full" v-for="plate in plates" :key="plate.$id">
               <a
+                :href="/restaurants/ + plate.restaurant + '/plates/' + plate.$id"
                 class="w-full flex justify-between items-center gap-5 hover:gap-10 hover:cursor-pointer transition-all diration-200 ease-out"
-                @click="navigateTo('/restaurants/' + plate.$id)"
               >
                 <span
                   class="hover:pl-2 basis-fit text-nowrap font-bold text-xl transition-all duration-200 ease-out"
