@@ -42,7 +42,6 @@ const addPlate = async () => {
     await createDocument("main", "plates", document.value);
     navigateTo("/");
   } catch (e) {
-    console.log({e});
     alert.value.message = e.message
     if (alert.value.show = true) alert.value.show = false
     alert.value.show = true;
