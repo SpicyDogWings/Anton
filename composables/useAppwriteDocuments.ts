@@ -1,12 +1,9 @@
-import { ID } from "appwrite";
+import { ID, Query } from "appwrite";
 
 export function useAppwriteDocuments() {
   const appwrite = useAppwriteStore();
   const documents = ref();
-  const error = ref({
-    message: "",
-    bug: false,
-  });
+  const user = ref(null)
 
   const listDocuments = async (
     database: string,
@@ -15,6 +12,9 @@ export function useAppwriteDocuments() {
   ) => {
     try {
       const connection = useAppwriteConnection(database, collection);
+      const fetchedUser = await appwrite.getUser();
+      user.value = fetchedUser; 
+      query.push(Query.equal("user", [user.value.$id]))
       const response = await appwrite.db.listDocuments(
         connection.value.db,
         connection.value.collection,
@@ -22,13 +22,10 @@ export function useAppwriteDocuments() {
       );
       if (response.documents.length > 0) {
         documents.value = response.documents;
-        error;
       } else {
         throw new Error("No documents found.");
       }
     } catch (e) {
-      console.error(e);
-      error.value.message = "An error occurred while fetching documents.";
       documents.value = [];
     }
   };
@@ -38,19 +35,13 @@ export function useAppwriteDocuments() {
     collection: string,
     item: object,
   ) => {
-    try {
-      const connection = useAppwriteConnection(database, collection);
-      const response = await appwrite.db.createDocument(
-        connection.value.db,
-        connection.value.collection,
-        ID.unique(),
-        item,
-      );
-    } catch (e) {
-      console.error(e);
-      error.value.message = "An error occurred while adding document.";
-      documents.value = [];
-    }
+    const connection = useAppwriteConnection(database, collection);
+    const response = await appwrite.db.createDocument(
+      connection.value.db,
+      connection.value.collection,
+      ID.unique(),
+      item,
+    );
   };
 
   const getDocument = async (
@@ -76,10 +67,33 @@ export function useAppwriteDocuments() {
       documents.value = "no hay registros";
     }
   };
+  
+  const putDocument = async (
+    database: string,
+    collection: string,
+    document: string
+  ) => {
+    try {
+      const connection = useAppwriteConnection(database, collection)
+      const response = await appwrite.db.updateDocument(
+        connection.value.db,
+        connection.value.collection,
+        document,
+        [],
+      )
+      if (response) {
+        documents.value = response;
+      } else {
+        throw new Error("No hay registros");
+      }
+    } catch (e) {
+      console.log(e);
+      documents.value = "no hay registros";
+    }
+  }
 
   return {
     documents,
-    error,
     listDocuments,
     getDocument,
     createDocument,
