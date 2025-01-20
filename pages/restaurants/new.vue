@@ -3,11 +3,13 @@ useHead({
   title: "Nuevo Restaurante",
 });
 const appwrite = useAppwriteStore();
-const document = ref<Restaurants>({});
 const alert = ref({
   message: "",
   show: false,
 });
+
+const document = ref<Restaurants>({});
+const validForm = ref(false)
 
 const rules = ref({
   required: value => !!value || "Este campo es requerido"
@@ -25,6 +27,7 @@ const addRestaurant = async () => {
     navigateTo("/");
   } catch (e) {
     alert.value.message = e.message
+    if (alert.value.show = true) alert.value.show = false
     alert.value.show = true;
     setTimeout(() => {
       alert.value.show = false;
@@ -53,72 +56,75 @@ const addRestaurant = async () => {
         </p>
       </div>
     </section>
-    <section class="my-5 w-full flex flex-col">
-      <h2 class="mb-5 text-3xl">Datos del restaurante</h2>
-      <div class="w-full flex gap-10">
-        <v-text-field
-          label="Nombre del restaurante"
-          variant="outlined"
-          v-model="document.name"
-          :rules="[rules.required]"
-          class="basis-5/12"
-        ></v-text-field>
-        <v-text-field
-          label="Descripción del restaurante"
-          variant="outlined"
-          v-model="document.description"
-          :rules="[rules.required]"
-          class="basis-5/12"
-        ></v-text-field>
-      </div>
+    <section class="w-full flex flex-wrap flex-col">
+      <v-form v-model="validForm" @submit.prevent="addRestaurant" >
+        <section class="my-5 w-full flex flex-col">
+          <h2 class="mb-5 text-3xl">Datos del restaurante</h2>
+          <div class="w-full flex gap-10">
+            <v-text-field
+              label="Nombre del restaurante"
+              variant="outlined"
+              v-model="document.name"
+              :rules="[rules.required]"
+              class="basis-5/12"
+            ></v-text-field>
+            <v-text-field
+              label="Descripción del restaurante"
+              variant="outlined"
+              v-model="document.description"
+              :rules="[rules.required]"
+              class="basis-5/12"
+            ></v-text-field>
+          </div>
+        </section>
+        <section class="my-5 w-full flex flex-col">
+          <v-expansion-panels>
+            <v-expansion-panel>
+              <v-expansion-panel-title>
+                <h2 class="mb-5 text-3xl">Ubicación</h2>
+              </v-expansion-panel-title>
+              <v-expansion-panel-text>
+                <div class="w-full flex gap-10">
+                  <v-autocomplete
+                    label="Departamento"
+                    :items="['León', 'Managua', 'Estelí']"
+                    v-model="document.departamento"
+                    variant="outlined"
+                    class="basis-6/12"
+                  ></v-autocomplete>
+                  <v-text-field
+                    label="Lugar"
+                    variant="outlined"
+                    hint="Puede ser un lugar más específico"
+                    placeholder="Poneloya"
+                    v-model="document.lugar"
+                    class="basis-6/12"
+                  ></v-text-field>
+                </div>
+                <div class="my-5 w-full flex gap-10">
+                  <v-text-field
+                    label="Dirección"
+                    variant="outlined"
+                    hint="Describe como se puede llegar al lugar"
+                    v-model="document.direction"
+                    class="basis-full"
+                  ></v-text-field>
+                </div>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
+          <v-divider>
+          </v-divider>
+          </section>
+        <div class="w-full flex justify-end"> 
+          <v-btn
+            variant="outlined"
+            type="submit"
+          >
+            Añadir restaurante
+          </v-btn>
+        </div> 
+      </v-form>
     </section>
-    <section class="my-5 w-full flex flex-col">
-      <v-expansion-panels>
-        <v-expansion-panel>
-          <v-expansion-panel-title>
-            <h2 class="mb-5 text-3xl">Ubicación</h2>
-          </v-expansion-panel-title>
-          <v-expansion-panel-text>
-            <div class="w-full flex gap-10">
-              <v-autocomplete
-                label="Departamento"
-                :items="['León', 'Managua', 'Estelí']"
-                v-model="document.departamento"
-                variant="outlined"
-                class="basis-6/12"
-              ></v-autocomplete>
-              <v-text-field
-                label="Lugar"
-                variant="outlined"
-                hint="Puede ser un lugar más específico"
-                placeholder="Poneloya"
-                v-model="document.lugar"
-                class="basis-6/12"
-              ></v-text-field>
-            </div>
-            <div class="my-5 w-full flex gap-10">
-              <v-text-field
-                label="Dirección"
-                variant="outlined"
-                hint="Describe como se puede llegar al lugar"
-                v-model="document.direction"
-                class="basis-full"
-              ></v-text-field>
-            </div>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
-      </v-expansion-panels>
-      <v-divider>
-      </v-divider>
-    </section>
-    <div class="w-full flex justify-end"> 
-      <v-btn
-        variant="outlined"
-        type="submit"
-        @click="addRestaurant"
-      >
-        Añadir restaurante
-      </v-btn>
-    </div> 
   </section>
 </template>
